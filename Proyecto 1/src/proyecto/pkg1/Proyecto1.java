@@ -3,9 +3,11 @@ package proyecto.pkg1;
 import java.util.Scanner;
 import java.util.Date;
 import java.util.Vector;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.io.FileOutputStream;
 
 public class Proyecto1 {
 
@@ -15,6 +17,7 @@ public class Proyecto1 {
     private static Vector<String> bitacoraActual = new Vector<>();
 
     static class Personaje {
+
         int codUnico;
         String nombre;
         String categoria;
@@ -25,12 +28,12 @@ public class Proyecto1 {
             this.codUnico = codUnico;
             this.nombre = nombre;
             this.categoria = categoria;
-            this.precio= precio;
+            this.precio = precio;
             this.stock = stock;
         }
     }
 
-     public static void registrarBitacora(String accion, boolean correcto) {
+    public static void registrarBitacora(String accion, boolean correcto) {
         Date fecha = new Date();
         String estado = correcto ? "Correcta" : "Errónea";
         String entrada = fecha + " | Acción: " + accion + " | Estado: " + estado + " | Usuario: Jhostin Ramírez";
@@ -48,10 +51,80 @@ public class Proyecto1 {
             System.out.println("Error al guardar la bitácora en archivo.");
         }
     }
+
+    public static void generarReporteStock() {
+        if (personajes.isEmpty()) {
+            System.out.println("No hay productos para generar el reporte.");
+            registrarBitacora("Generar Reporte Stock", false);
+            return;
+        }
+
+        String fechaHora = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+        String nombreArchivo = fechaHora + "_Stock.pdf";
+
+        Document documento = new Document();
+
+        try {
+            PdfWriter.getInstance(documento, new FileOutputStream(nombreArchivo));
+            documento.open();
+            documento.add(new Paragraph("===== REPORTE DE STOCK =====\n\n"));
+
+            for (Personaje p : personajes) {
+                documento.add(new Paragraph(
+                        "Código: " + p.codUnico
+                        + " | Nombre: " + p.nombre
+                        + " | Categoría: " + p.categoria
+                        + " | Precio: Q" + p.precio
+                        + " | Stock: " + p.stock + "\n"));
+            }
+
+            documento.close();
+            System.out.println("Reporte de stock generado exitosamente: " + nombreArchivo);
+            registrarBitacora("Generar Reporte Stock", true);
+        } catch (Exception e) {
+            System.out.println("Error al generar el reporte de stock.");
+            registrarBitacora("Generar Reporte Stock", false);
+        }
+    }
+
+    public static void generarReporteVentas() {
+        String fechaHora = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date());
+        String nombreArchivo = fechaHora + "_Venta.pdf";
+
+        Document documento = new Document();
+
+        try {
+            PdfWriter.getInstance(documento, new FileOutputStream(nombreArchivo));
+            documento.open();
+            documento.add(new Paragraph("===== REPORTE DE VENTAS =====\n\n"));
+
+            // Leer archivo de ventas.txt
+            try (BufferedReader br = new BufferedReader(new FileReader("ventas.txt"))) {
+                String linea;
+                boolean hayVentas = false;
+                while ((linea = br.readLine()) != null) {
+                    documento.add(new Paragraph(linea + "\n"));
+                    hayVentas = true;
+                }
+                if (!hayVentas) {
+                    documento.add(new Paragraph("No hay ventas registradas.\n"));
+                }
+            }
+
+            documento.close();
+            System.out.println("Reporte de ventas generado exitosamente: " + nombreArchivo);
+            registrarBitacora("Generar Reporte Ventas", true);
+        } catch (Exception e) {
+            System.out.println("Error al generar el reporte de ventas.");
+            registrarBitacora("Generar Reporte Ventas", false);
+        }
+    }
+
     public static void agregarproducto() {
         try {
             System.out.println("=====Agregar Producto====");
-            int nuevocodUnico = personajes.size() + 1;
+            int nuevocodUnico;
+
             System.out.println("Nombre del Producto: ");
             String producto = scanner.nextLine().trim();
             System.out.println("Categoria (camisas, pantalones, accesorios, etc): ");
@@ -68,7 +141,34 @@ public class Proyecto1 {
                 System.out.println("Error: EL stock debe de ser positivo. Intentar de nuevo");
                 stock = Integer.parseInt(scanner.nextLine());
             }
-            Personaje nuevoPersonaje = new Personaje(nuevocodUnico, producto, categoria, precio,stock);
+            while (true) {
+                System.out.println("Ingrese el Código Único del producto: ");
+                try {
+                    nuevocodUnico = Integer.parseInt(scanner.nextLine());
+
+                    if (nuevocodUnico <= 0) {
+                        System.out.println("Error: El código debe ser un número positivo. Intente de nuevo.");
+                        continue;
+                    }
+
+                    boolean existe = false;
+                    for (Personaje p : personajes) {
+                        if (p.codUnico == nuevocodUnico) {
+                            existe = true;
+                            break;
+                        }
+                    }
+
+                    if (existe) {
+                        System.out.println("Error: Ya existe un producto con ese código único. Ingrese otro.");
+                    } else {
+                        break; // código válido y único
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Debe ingresar un número válido.");
+                }
+            }
+            Personaje nuevoPersonaje = new Personaje(nuevocodUnico, producto, categoria, precio, stock);
             personajes.add(nuevoPersonaje);
 
             System.out.println("\nProducto agregado exitosamente!");
@@ -102,27 +202,16 @@ public class Proyecto1 {
 
             switch (opcion) {
                 case 1:
-                    int codUnico;
-                    while (true) {
-                        try {
-                            System.out.print("\nIngrese el codigo del producto a buscar: ");
-                            codUnico = Integer.parseInt(scanner.nextLine());
-
-                            if (codUnico < 1 || codUnico > personajes.size()) {
-                                System.out.println("Error: Codigo no válido. Intente nuevamente.");
-                            } else {
-                                break;
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Error: Debe ingresar un número válido.");
+                    System.out.print("\nIngrese el código del producto a buscar: ");
+                    int codUnico = Integer.parseInt(scanner.nextLine());
+                    for (Personaje p : personajes) {
+                        if (p.codUnico == codUnico) {
+                            mostrarDatosProducto(p);
+                            encontrado = true;
+                            break;
                         }
                     }
-
-                    Personaje personaje = personajes.get(codUnico - 1);
-                    mostrarDatosProducto(personaje);
-                    encontrado = true;
                     break;
-
                 case 2:
                     System.out.print("\nIngrese el nombre del producto: ");
                     String nombreBuscar = scanner.nextLine().trim().toLowerCase();
@@ -133,7 +222,6 @@ public class Proyecto1 {
                         }
                     }
                     break;
-
                 case 3:
                     System.out.print("\nIngrese la categoría del producto: ");
                     String categoriaBuscar = scanner.nextLine().trim().toLowerCase();
@@ -175,7 +263,7 @@ public class Proyecto1 {
     private static void eliminarProdcuto() {
         try {
             if (personajes.isEmpty()) {
-                System.out.println("\nNo hay ningun producto registrado para eliminar.");
+                System.out.println("\nNo hay ningún producto registrado para eliminar.");
                 registrarBitacora("Eliminar Producto", false);
                 return;
             }
@@ -183,34 +271,29 @@ public class Proyecto1 {
             System.out.println("\n--- Eliminar Producto ---");
             verListadoPersonajes();
 
-            int codUnico;
-            while (true) {
-                try {
-                    System.out.print("\nIngrese el codigo del Producto a eliminar: ");
-                    codUnico = Integer.parseInt(scanner.nextLine());
+            System.out.print("\nIngrese el código del Producto a eliminar: ");
+            int codUnico = Integer.parseInt(scanner.nextLine());
 
-                    if (codUnico < 1 || codUnico > personajes.size()) {
-                        System.out.println("Error: Codigo no válido. Intente nuevamente.");
-                    } else {
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Debe ingresar un número válido.");
+            Personaje productoEliminar = null;
+            for (Personaje p : personajes) {
+                if (p.codUnico == codUnico) {
+                    productoEliminar = p;
+                    break;
                 }
             }
 
-            System.out.print("¿Está seguro que desea eliminar este Producto " + personajes.get(codUnico-1).nombre + "? (S/N): ");
+            if (productoEliminar == null) {
+                System.out.println("Error: No existe un producto con ese código.");
+                registrarBitacora("Eliminar Producto", false);
+                return;
+            }
+
+            System.out.print("¿Está seguro que desea eliminar el Producto " + productoEliminar.nombre + "? (S/N): ");
             String confirmacion = scanner.nextLine().trim().toUpperCase();
 
             if (confirmacion.equals("S")) {
-                String nombreEliminado = personajes.get(codUnico-1).nombre;
-                personajes.remove(codUnico-1);
-
-                for (int i = 0; i < personajes.size(); i++) {
-                    personajes.get(i).codUnico = i + 1;
-                }
-
-                System.out.println("El producto " + nombreEliminado + " fue eliminado correctamente.");
+                personajes.remove(productoEliminar);
+                System.out.println("El producto " + productoEliminar.nombre + " fue eliminado correctamente.");
                 registrarBitacora("Eliminar Producto", true);
             } else {
                 System.out.println("Eliminación cancelada.");
@@ -232,7 +315,7 @@ public class Proyecto1 {
         System.out.println("Codigo\tNombre\tPrecio\tStock");
         System.out.println("--------------------------------");
         for (Personaje p : personajes) {
-            System.out.println(p.codUnico + "\t" + p.nombre + "\t" + p.precio+"\t"+p.stock);
+            System.out.println(p.codUnico + "\t" + p.nombre + "\t" + p.precio + "\t" + p.stock);
         }
     }
 
@@ -246,23 +329,22 @@ public class Proyecto1 {
 
             verListadoPersonajes();
 
-            int codProducto;
-            while (true) {
-                try {
-                    System.out.print("\nIngrese el código del producto a vender: ");
-                    codProducto = Integer.parseInt(scanner.nextLine());
+            System.out.print("\nIngrese el código del producto a vender: ");
+            int codProducto = Integer.parseInt(scanner.nextLine());
 
-                    if (codProducto < 1 || codProducto > personajes.size()) {
-                        System.out.println("Error: Código no válido. Intente nuevamente.");
-                    } else {
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Debe ingresar un número válido.");
+            Personaje producto = null;
+            for (Personaje p : personajes) {
+                if (p.codUnico == codProducto) {
+                    producto = p;
+                    break;
                 }
             }
 
-            Personaje producto = personajes.get(codProducto - 1);
+            if (producto == null) {
+                System.out.println("Error: No existe un producto con ese código.");
+                registrarBitacora("Registrar Venta", false);
+                return;
+            }
 
             System.out.print("Ingrese la cantidad vendida: ");
             int cantidadVendida = Integer.parseInt(scanner.nextLine());
@@ -290,11 +372,11 @@ public class Proyecto1 {
 
             // Registrar en archivo de texto
             try (FileWriter writer = new FileWriter("ventas.txt", true)) {
-                writer.write("Fecha: " + fechaHora +
-                             " | Producto: " + producto.nombre +
-                             " | Código: " + producto.codUnico +
-                             " | Cantidad: " + cantidadVendida +
-                             " | Total: Q" + totalVenta + "\n");
+                writer.write("Fecha: " + fechaHora
+                        + " | Producto: " + producto.nombre
+                        + " | Código: " + producto.codUnico
+                        + " | Cantidad: " + cantidadVendida
+                        + " | Total: Q" + totalVenta + "\n");
             }
 
             System.out.println("\nVenta registrada exitosamente!");
@@ -310,6 +392,7 @@ public class Proyecto1 {
             registrarBitacora("Registrar Venta", false);
         }
     }
+
     public static void verBitacoras() {
         System.out.println("\n===== BITÁCORA DE ESTA EJECUCIÓN =====");
         if (bitacoraActual.isEmpty()) {
@@ -325,7 +408,7 @@ public class Proyecto1 {
         System.out.println("=====Datos del Estudiante=====");
         System.out.println("Nombre: Jhostin Javier Ramírez Enríquez");
         System.out.println("Carnet: 202404407");
-        System.out.println("Nombre del Laboratorio: Laboratorio Introducción a la Programación y Computación");
+        System.out.println("Clase: Laboratorio Introducción a la Programación y Computación 1");
         System.out.println("Sección: A");
         System.out.println("Usuario de GitHub: jhostinramir2006-beep ");
         registrarBitacora("Ver Datos del Estudiante", true); // ← Se registra en bitácora
@@ -348,9 +431,25 @@ public class Proyecto1 {
                 case 4:
                     registrarVenta();
                     break;
+                case 5:
+                    System.out.println("\n===== Generar Reportes =====");
+                    System.out.println("1. Reporte de Stock");
+                    System.out.println("2. Reporte de Ventas");
+                    System.out.print("Elige una opción: ");
+                    int reporte = Integer.parseInt(scanner.nextLine());
+                    if (reporte == 1) {
+                        generarReporteStock();
+                    } else if (reporte == 2) {
+                        generarReporteVentas();
+                    } else {
+                        System.out.println("Opción inválida.");
+                        registrarBitacora("Generar Reporte - opción inválida", false);
+                    }
+                    break;
+
                 case 6:
                     verBitacoras();
-                break;
+                    break;
                 case 7:
                     datosestudiante();
                     break;

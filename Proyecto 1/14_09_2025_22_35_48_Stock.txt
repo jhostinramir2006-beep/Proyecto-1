@@ -1,6 +1,0 @@
-===== Reporte de Stock =====
-Fecha: 14_09_2025_22_35_48
-Código	Nombre	Categoría	Precio	Stock
----------------------------------------------
-1	asda	asdsa	45	54
-2	asd	asdsd	145	25

@@ -1,29 +1,12 @@
-Fecha: 2025-09-14 21:25:01 | Curso: Introducción a la Programación y Computación 1 | Acción: Agregar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:25:12 | Curso: Introducción a la Programación y Computación 1 | Acción: Buscar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:26:56 | Curso: Introducción a la Programación y Computación 1 | Acción: Agregar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:27:05 | Curso: Introducción a la Programación y Computación 1 | Acción: Agregar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:27:30 | Curso: Introducción a la Programación y Computación 1 | Acción: Buscar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:27:49 | Curso: Introducción a la Programación y Computación 1 | Acción: Eliminar Producto | Estado: Acción Errónea | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:28:01 | Curso: Introducción a la Programación y Computación 1 | Acción: Registrar Venta | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:33:09 | Curso: Introducción a la Programación y Computación 1 | Acción: Buscar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:35:12 | Curso: Introducción a la Programación y Computación 1 | Acción: Agregar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:35:21 | Curso: Introducción a la Programación y Computación 1 | Acción: Agregar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:35:26 | Curso: Introducción a la Programación y Computación 1 | Acción: Buscar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:35:39 | Curso: Introducción a la Programación y Computación 1 | Acción: Eliminar Producto | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:35:54 | Curso: Introducción a la Programación y Computación 1 | Acción: Ver Bitácoras | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:37:39 | Curso: Introducción a la Programación y Computación 1 | Acción: Salir del Programa | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:37:51 | Acción: Ver Bitácoras | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:38:50 | Acción: Ver Bitácoras | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:43:30 | Acción: Salir del Programa | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:51:45 | Acción: Ver Bitácoras | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:52:33 | Acción: Salir del Programa | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:54:26 | Acción: Ver Bitácoras | Estado: Acción Correcta | Usuario: Jhostin Javier Ramírez Enríquez
-Fecha: 2025-09-14 21:54:38 | Acción: Salir del Programa | Estado: Acción Errónea | Usuario: Jhostin Javier Ramírez Enríquez
 
 ===== Nueva Sesión =====
-Sun Sep 14 22:20:47 CST 2025 | Acción: Agregar Producto | Estado: Correcta | Usuario: Jhostin Ramírez
-Sun Sep 14 22:20:50 CST 2025 | Acción: Ver Datos del Estudiante | Estado: Correcta | Usuario: Jhostin Ramírez
-Sun Sep 14 22:24:52 CST 2025 | Acción: Eliminar Producto | Estado: Correcta | Usuario: Jhostin Ramírez
-Sun Sep 14 22:25:43 CST 2025 | Acción: Salir del Programa | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:33:42 CST 2025 | Acción: Agregar Producto | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:33:50 CST 2025 | Acción: Agregar Producto | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:33:56 CST 2025 | Acción: Buscar Producto | Estado: Errónea | Usuario: Jhostin Ramírez
+Sat Sep 20 13:34:08 CST 2025 | Acción: Eliminar Producto | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:34:15 CST 2025 | Acción: Eliminar Producto | Estado: Errónea | Usuario: Jhostin Ramírez
+Sat Sep 20 13:34:31 CST 2025 | Acción: Registrar Venta | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:34:41 CST 2025 | Acción: Generar Reporte Ventas | Estado: Correcta | Usuario: Jhostin Ramírez
+Sat Sep 20 13:34:50 CST 2025 | Acción: Salir del Programa | Estado: Correcta | Usuario: Jhostin Ramírez
 ===== Fin de Sesión =====
 

@@ -1,3 +1,1 @@
-Fecha: 2025-09-14 21:17:36 | Producto: asda | Código: 1 | Cantidad: 12 | Total: Q1740
-Fecha: 2025-09-14 21:28:01 | Producto: afsda | Código: 1 | Cantidad: 45 | Total: Q6525
-Fecha: 2025-09-14 22:35:41 | Producto: asda | Código: 1 | Cantidad: 100 | Total: Q4500
+Fecha: 2025-09-20 13:34:31 | Producto: asdf | Código: 1546 | Cantidad: 10 | Total: Q4580
