@@ -1,1 +1,4 @@
 Fecha: 2025-09-20 13:34:31 | Producto: asdf | Código: 1546 | Cantidad: 10 | Total: Q4580
+Fecha: 2025-09-20 14:40:41 | Producto: Libais | Código: 1458 | Cantidad: 100 | Total: Q45600
+Fecha: 2025-09-20 14:41:06 | Producto: adias | Código: 14587 | Cantidad: 200 | Total: Q97400
+Fecha: 2025-09-20 14:44:02 | Producto: asd | Código: 1254 | Cantidad: 10 | Total: Q1450
